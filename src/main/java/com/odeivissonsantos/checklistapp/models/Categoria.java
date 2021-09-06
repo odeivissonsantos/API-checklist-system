@@ -8,9 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @Entity
-@Table(indexes = {@Index(name = "IDX_GUID_CAT", columnList = "guid")})
 public class Categoria extends BaseEntity {
 	
 	@Id
@@ -29,6 +29,8 @@ public class Categoria extends BaseEntity {
 	@Column(unique = true)
 	private String nome;
 	
+	@JsonManagedReference
+	@JsonIgnore
 	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
 	private List<CheckListItem> checkListItem;
 

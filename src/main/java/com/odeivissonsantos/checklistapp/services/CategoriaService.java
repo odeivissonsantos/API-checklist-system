@@ -3,8 +3,10 @@ package com.odeivissonsantos.checklistapp.services;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.odeivissonsantos.checklistapp.exceptions.CategoriaServiceException;
 import com.odeivissonsantos.checklistapp.exceptions.ResourceNotFoundException;
@@ -20,12 +22,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CategoriaService {
 	
+	@Autowired
 	private CheckListItemRepository checkListItemRepository;
+	@Autowired
 	private CategoriaRepository categoriaRepository;
 	
-	public Categoria create(Categoria categoria) {
+	public Categoria create(@RequestBody Categoria categoria) {
 		categoria.setGuid(UUID.randomUUID().toString());
-		return this.categoriaRepository.save(categoria);
+		return categoriaRepository.save(categoria);
 	}
 	
 	public Categoria update(String guid, Categoria categoriaAtualizado) {
@@ -52,8 +56,8 @@ public class CategoriaService {
 				() -> new ResourceNotFoundException("Categoria não encontrada"));
 	}
 	
-	public Iterable<Categoria> findAllCategorias() {
-		return this.categoriaRepository.findAll();
+	public List<Categoria> findAllCategorias() {
+		return categoriaRepository.findAll();
 	}
 	
 	

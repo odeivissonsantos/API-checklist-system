@@ -3,6 +3,7 @@ package com.odeivissonsantos.checklistapp.services;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.odeivissonsantos.checklistapp.exceptions.ResourceNotFoundException;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CheckListItemService {
 	
+	@Autowired
 	private CheckListItemRepository checkListItemRepository;
 	//private CategoriaRepository categoriaRepository;
 	

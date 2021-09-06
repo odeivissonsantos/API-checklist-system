@@ -1,5 +1,8 @@
 package com.odeivissonsantos.checklistapp.controllers;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,7 +25,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CategoriaController {
 	
+	@Autowired
 	private CategoriaService categoriaService;
+	
 	
 	@PostMapping
 	public ResponseEntity<Categoria> create(@RequestBody Categoria categoria) {
@@ -30,7 +35,7 @@ public class CategoriaController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Iterable<Categoria>> findAllCategoria() {
+	public ResponseEntity<List<Categoria>> findAllCategoria() {
 		return ResponseEntity.ok().body(categoriaService.findAllCategorias());
 	}
 	
