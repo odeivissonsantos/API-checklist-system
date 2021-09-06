@@ -35,7 +35,7 @@ public class CategoriaService {
 		return this.categoriaRepository.save(categoriaAtualizado);
 	}
 	
-	public void deleteById(String guid) {
+	public void deleteByGuid(String guid) {
 		 Categoria categoria = this.categoriaRepository.findByGuid(guid).orElseThrow(
 				() -> new ResourceNotFoundException("Categoria não encontrada"));
 		 

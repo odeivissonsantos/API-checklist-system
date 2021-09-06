@@ -11,6 +11,5 @@ import com.odeivissonsantos.checklistapp.models.Categoria;
 public interface CategoriaRepository extends PagingAndSortingRepository<Categoria, Long>{
 	
 	Optional<Categoria> findByGuid(String guid);
-	Optional<Categoria> deleteByGuid(String guid);
 
 }

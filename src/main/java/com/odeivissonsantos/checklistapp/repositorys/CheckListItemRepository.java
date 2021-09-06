@@ -15,6 +15,5 @@ public interface CheckListItemRepository extends PagingAndSortingRepository<Chec
 	
 	List<CheckListItem> findByCategoriaGuid(String guid);
 	
-	Optional<CheckListItem> deleteByGuid(String guid);
 
 }
