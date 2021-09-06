@@ -1,17 +1,21 @@
 package com.odeivissonsantos.checklistapp.services;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import com.odeivissonsantos.checklistapp.exceptions.CategoriaServiceException;
+import com.odeivissonsantos.checklistapp.exceptions.ResourceNotFoundException;
 import com.odeivissonsantos.checklistapp.models.Categoria;
+import com.odeivissonsantos.checklistapp.models.CheckListItem;
 import com.odeivissonsantos.checklistapp.repositorys.CategoriaRepository;
 import com.odeivissonsantos.checklistapp.repositorys.CheckListItemRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @Service
 @RequiredArgsConstructor
 public class CategoriaService {
@@ -25,8 +29,46 @@ public class CategoriaService {
 	}
 	
 	public Categoria update(String guid, Categoria categoriaAtualizado) {
-		categoriaAtualizado.setGuid(guid);
+		categoriaRepository.findByGuid(guid).orElseThrow(
+											() -> new ResourceNotFoundException("Categoria não encontrada!"));
+		//categoriaAtualizado.setGuid(guid);
 		return this.categoriaRepository.save(categoriaAtualizado);
 	}
 	
+	public void deleteById(String guid) {
+		 Categoria categoria = this.categoriaRepository.findByGuid(guid).orElseThrow(
+				() -> new ResourceNotFoundException("Categoria não encontrada"));
+		 
+		 List<CheckListItem> checkListItens = this.checkListItemRepository.findByCategoriaGuid(guid);
+		 if(!CollectionUtils.isEmpty(checkListItens)) {
+			 throw new CategoriaServiceException ("Não é possível deletar, ainda há itens na categoria!");
+		 }
+		 
+		this.categoriaRepository.delete(categoria);
+	}
+	
+	public Categoria findByCategoriaGuid(String guid) {
+		return this.categoriaRepository.findByGuid(guid).orElseThrow(
+				() -> new ResourceNotFoundException("Categoria não encontrada"));
+	}
+	
+	public Iterable<Categoria> findAllCategorias() {
+		return this.categoriaRepository.findAll();
+	}
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
